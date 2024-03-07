@@ -1,4 +1,6 @@
 .idea/
-vessels_data.csv
-vessels_data_short.csv
+#vessels_data.csv
+#vessels_data_short.csv
 __pycache__/
+*.csv
+.DS_Store
