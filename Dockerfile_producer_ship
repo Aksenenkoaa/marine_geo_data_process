@@ -1,0 +1,9 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+COPY . /app
+
+RUN pip install --upgrade pip && \
+    pip install kafka-python==2.0.2 lz4==4.3.3 cffi==1.16.0
+
+CMD ["python3", "src/producer_ship.py"]

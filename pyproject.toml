@@ -6,9 +6,13 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.10, <3.11"
 kafka-python = "^2.0.2"
-
+lz4 = "^4.3.3"
+cffi = "^1.16.0"
+pyspark = "^3.5.1"
+findspark = "^2.0.1"
+pandas = "^2.2.1"
 
 [build-system]
 requires = ["poetry-core"]

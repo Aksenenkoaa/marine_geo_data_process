@@ -2,17 +2,37 @@
 Process of geo data from ships
 
 python3 -m poetry install
+docker network create "kafka-network"
 
 docker-compose up
+# if consumer give error "kafka.errors.NoBrokersAvailable: NoBrokersAvailable"
+# check that KafkaProducer and KafkaConsumer have same api_version
+# in all files with KafkaProducer and KafkaConsumer - there should be same api_version
 # go into container
-docker container exec -it kafka_marine bash
+docker container exec -it kafka1 bash
+/bin/kafka-topics --version
+# result example
+7.6.0-ccs
+# write this in KafkaProducer and KafkaConsumer
+consumer = KafkaConsumer(
+'my_topic_name',
+api_version=(7, 6, 0),
+bootstrap_servers=['kafka1:29092'],
+...)
+
+
+# if run consumer locally then KAFKA_LISTENERS should be removed/commented
+# if change data in docker-compose.yaml then better reload terminals
+# KafkaConsumer bootstrap_servers=['localhost:29092', 'kafka1:9092',],  # for run locally
+
 
 # operations with topics
-docker-compose exec kafka kafka-topics --bootstrap-server localhost:9092 --create --replication-factor 1 --partitions 1 --topic test_topic
-docker-compose exec kafka kafka-topics --list --bootstrap-server localhost:9092
-docker-compose exec kafka kafka-topics --bootstrap-server localhost:9092 --describe --topic test_topic
 
-docker-compose exec kafka kafka-console-producer --bootstrap-server localhost:9092 --topic test_topic
-docker-compose exec kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic test_topic --from-beginning
 
-docker-compose exec kafka kafka-topics --bootstrap-server localhost:9092 --delete --topic test_topic
+# If there is error with CMD "python3 src/flink_consumer.py"
+# ModuleNotFoundError: No module named '_lzma'
+pyenv uninstall 3.10.13 # desired-python-version
+brew install xz
+pyenv install 3.10.13 # desired-python-version
+
+
