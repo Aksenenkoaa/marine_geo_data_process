@@ -4,24 +4,27 @@ import pandas as pd
 from kafka import KafkaConsumer
 
 from producer_alert import AlertToShip
+from utils import create_bootstrap_servers, create_api_version
 
-API_VERSION = (7, 6, 0)
+pd.set_option('display.max_columns', None)
+
+# API_VERSION = (7, 6, 0)
 FRUD_CONST_1 = 0.514444
 FRUD_CONST_2 = 9.8
 FRUD_MOMENTUM_THRESHOLD = 0.2
 # FRUD_AVG_2MIN_THRESHOLD = 0.84
-FRUD_AVG_2MIN_THRESHOLD = 0.08
+FRUD_AVG_2MIN_THRESHOLD = 0.13
 # FRUD_AVG_2MIN_THRESHOLD = 0.13
 RADIUS_CONST = (180.0 / 3.14) * 60 * 0.514444
 
 
 def consumer_start():
+
     #создание потребителя Kafka
     consumer = KafkaConsumer(
         'ship_info',
-        api_version=API_VERSION,
-        # bootstrap_servers='kafka1:9092',   # for docker image build
-        bootstrap_servers=['kafka1:9092', 'localhost:29092',],  # for run locally
+        api_version=create_api_version(),
+        bootstrap_servers=create_bootstrap_servers(),
         group_id='marine_group',
         auto_offset_reset='earliest',
         enable_auto_commit=True,
@@ -35,7 +38,6 @@ def consumer_start():
     df = pd.DataFrame()
     alert_passed = False
     for message in consumer:
-        print(message)
         payload = message.value.decode("utf-8")
         data = json.loads(payload)
 
@@ -65,6 +67,7 @@ def consumer_start():
         df.loc[df['frud_avg_2min_num'] > FRUD_AVG_2MIN_THRESHOLD, 'alert'] = True
         df.loc[df['radius_circulation'] < df['length_3times'], 'alert'] = True
 
+        print(df)
         if df.iloc[0]['alert']:
             if not alert_passed:
                 print('zzzzz')

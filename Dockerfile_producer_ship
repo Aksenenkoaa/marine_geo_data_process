@@ -3,6 +3,9 @@ FROM python:3.10-slim
 WORKDIR /app
 COPY . /app
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 RUN pip install --upgrade pip && \
     pip install kafka-python==2.0.2 lz4==4.3.3 cffi==1.16.0
 

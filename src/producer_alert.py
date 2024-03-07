@@ -2,12 +2,14 @@ import json
 
 import kafka
 
+from utils import create_bootstrap_servers, create_api_version
+
 
 class AlertToShip():
     def __init__(self):
-        self.BOOTSTRAP_SERVERS = ['kafka1:9092', 'localhost:29092']
+        self.BOOTSTRAP_SERVERS = create_bootstrap_servers()
         self.TOPIC_NAME = 'alert_info'
-        self.API_VERSION = (7, 6, 0)
+        self.API_VERSION = create_api_version()
         self.producer = None
 
     def producer_start(self):

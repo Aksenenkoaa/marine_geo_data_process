@@ -6,8 +6,10 @@ from pprint import pprint
 
 import kafka
 
-BOOTSTRAP_SERVERS = 'kafka1:9092'
-API_VERSION = (7, 6, 0)
+from utils import create_bootstrap_servers, create_api_version
+
+# BOOTSTRAP_SERVERS = 'kafka1:9092'
+# API_VERSION = (7, 6, 0)
 SPEED_UP = 20
 LINGER_MS = 60_000 / SPEED_UP
 BATCH_SIZE = 7_000
@@ -19,8 +21,8 @@ DATA_SOURCE = 'vessels_data_short_30_sec.csv'
 
 
 def producer_start():
-    producer = kafka.KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS,
-                                   api_version=API_VERSION,
+    producer = kafka.KafkaProducer(bootstrap_servers=create_bootstrap_servers(),
+                                   api_version=create_api_version(),
                                    linger_ms=LINGER_MS,
                                    batch_size=BATCH_SIZE,)
                                    # compression_type=COMPRESSION_TYPE,)

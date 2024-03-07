@@ -5,10 +5,9 @@ COPY . /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV AM_I_IN_A_DOCKER_CONTAINER Yes
+ENV AM_I_IN_A_DOCKER_CONTAINER=Yes
 
 RUN pip install --upgrade pip && \
-    pip install pandas==2.2.1 && \
     pip install kafka-python==2.0.2
 
-CMD ["python3", "src/consumer_alert.py"]
+CMD ["python3", "src/consumer_ship.py"]
