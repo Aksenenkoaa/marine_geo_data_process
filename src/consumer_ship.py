@@ -1,3 +1,5 @@
+import json
+
 from kafka import KafkaConsumer
 
 from utils import create_bootstrap_servers, create_api_version
@@ -17,7 +19,11 @@ def consumer_start():
         max_poll_interval_ms=10000,
     )
 
-    print('ALERT!')
+    for message in consumer:
+        payload = message.value.decode("utf-8")
+        data = json.loads(payload)
+        print('ALERT!')
+        print(data)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,19 @@
 version: '2'
+
 services:
+  db:
+    image: postgres
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - kafkanet
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
@@ -37,6 +51,7 @@ services:
     environment:
       SPRING_KAFKA_BOOTSTRAPSERVERS: kafka1:9092
     depends_on:
+      - db
       - zookeeper
       - kafka1
     networks:
@@ -45,11 +60,25 @@ services:
     image: producer_ship
     container_name: producer_ship
     depends_on:
+      - db
       - zookeeper
       - kafka1
       - consumer_alert
     networks:
       - kafkanet
+  consumer_ship:
+    image: consumer_ship
+    container_name: consumer_ship
+    depends_on:
+      - db
+      - zookeeper
+      - kafka1
+      - consumer_alert
+    networks:
+      - kafkanet
+
+volumes:
+  postgres_data:
 
 networks:
   kafkanet:

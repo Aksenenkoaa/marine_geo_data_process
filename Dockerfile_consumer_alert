@@ -9,6 +9,9 @@ ENV AM_I_IN_A_DOCKER_CONTAINER Yes
 
 RUN pip install --upgrade pip && \
     pip install pandas==2.2.1 && \
-    pip install kafka-python==2.0.2
+    pip install numpy==1.26.4 && \
+    pip install kafka-python==2.0.2 && \
+    pip install sqlalchemy==2.0.28 && \
+    pip install psycopg2-binary
 
 CMD ["python3", "src/consumer_alert.py"]
