@@ -59,10 +59,12 @@ services:
     networks:
       - kafkanet
   consumer_alert:
-    image: consumer_alert
+    build:
+      context: .
+      dockerfile: Dockerfile_consumer_alert
     container_name: consumer_alert
-    environment:
-      SPRING_KAFKA_BOOTSTRAPSERVERS: kafka1:9092
+#    environment:
+#      SPRING_KAFKA_BOOTSTRAPSERVERS: kafka1:9092
     depends_on:
       - db
       - zookeeper
@@ -70,7 +72,9 @@ services:
     networks:
       - kafkanet
   producer_ship:
-    image: producer_ship
+    build:
+      context: .
+      dockerfile: Dockerfile_producer_ship
     container_name: producer_ship
     depends_on:
       - db
@@ -80,7 +84,9 @@ services:
     networks:
       - kafkanet
   consumer_ship:
-    image: consumer_ship
+    build:
+      context: .
+      dockerfile: Dockerfile_consumer_ship
     container_name: consumer_ship
     depends_on:
       - db
@@ -96,5 +102,3 @@ volumes:
 
 networks:
   kafkanet:
-    external: true
-    name: kafka-network
