@@ -45,6 +45,19 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CREATE_TOPICS: "ship_info:1:1"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on:
+      - db
+    networks:
+      - kafkanet
   consumer_alert:
     image: consumer_alert
     container_name: consumer_alert
@@ -79,6 +92,7 @@ services:
 
 volumes:
   postgres_data:
+  grafana-storage:
 
 networks:
   kafkanet:

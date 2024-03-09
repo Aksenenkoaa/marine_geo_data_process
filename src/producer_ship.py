@@ -13,8 +13,8 @@ BATCH_SIZE = 7_000
 COMPRESSION_TYPE = 'lz4'
 FORMAT = '%Y-%m-%d %H:%M:%S%z'
 TOPIC_NAME = 'ship_info'
-DATA_SOURCE = 'vessels_data_test.csv'
-# DATA_SOURCE = 'vessels_data.csv'
+DATA_SOURCE = 'vessels_data.csv'
+# DATA_SOURCE = 'vessels_data_test.csv'
 # DATA_SOURCE = 'vessels_data_short_30_sec.csv'
 
 

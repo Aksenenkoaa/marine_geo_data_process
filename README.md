@@ -4,6 +4,9 @@ Process of geo data from ships
 python3 -m poetry install
 docker network create "kafka-network"
 
+http://localhost:3000/d/edf3ccyl6cl4wa/ship-alert?orgId=1&from=1709923551357&to=1709945151357
+http://localhost:3000/d/adf3d6i9hr3lse/ship-alert?orgId=1&refresh=auto&from=1709924193824&to=1709945793824
+
 docker-compose up
 # if consumer give error "kafka.errors.NoBrokersAvailable: NoBrokersAvailable"
 # check that KafkaProducer and KafkaConsumer have same api_version
