@@ -53,14 +53,7 @@ pyenv install 3.10.0 ### desired-python-version
 
 
 [//]: # (/Users/aa/education/evomarine/marine_geo_data_process/img.png)
-https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/img_1.png
+[//]: # (https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/img_1.png)
 
-[//]: # (![Screenshot]&#40;img.png&#41;)
-
-[//]: # (![img_1.png]&#40;img_1.png&#41;)
-
-[//]: # (![img_2.png]&#40;img_2.png&#41;)
-
-[//]: # (![img_3.png]&#40;img_3.png&#41;)
-
-[//]: # (![img_4.png]&#40;img_4.png&#41;)
+[//]: # ()
+[//]: # (y_images_for_readme/Screenshot 2024-03-10 at 00.58.33.png)
