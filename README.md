@@ -56,10 +56,10 @@ pyenv install 3.10.0 ### desired-python-version
 
 ### создать дашборд: bar chart лучше выбрать горизонтальный, так как id кораблей очень длинный 
 ### и при вертикальном варианте id разных кораблей будут перекрывать друг друга
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png.png)
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png)
 
 ### укажите с какой частотой обновлять данные в дашборде
 ![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png)
 
 ### в результате получится такой дашборд
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/result.png)
