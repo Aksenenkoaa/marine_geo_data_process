@@ -79,9 +79,9 @@ ___
 
 Укажите с какой частотой обновлять данные в дашборде
 
-![frequency](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png)
+[//]: # (![frequency]&#40;https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png&#41;)
 
-<img src="https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png" width="48">
+<img src="https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png" width="400">
 
 В результате получится примерно такой дашборд
 
