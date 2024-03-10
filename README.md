@@ -7,8 +7,8 @@ git clone https://github.com/Aksenenkoaa/marine_geo_data_process
 ### скопируйте файл "vessels_data.csv" в корневой каталог проекта (marine_geo_data_process)
 ### если есть какие-то проблемы в запуске docker контейнеров, 
 ### удалите все контейнеры перед перезапуском
-docker stop $(docker ps -aq) && docker rm $(docker ps -aq) && docker ps -a
-docker rmi $(docker images | egrep 'producer_ship|consumer_ship|consumer_alert')
+[//]: # (docker stop $&#40;docker ps -aq&#41; && docker rm $&#40;docker ps -aq&#41; && docker ps -a)
+[//]: # (docker rmi $&#40;docker images | egrep 'producer_ship|consumer_ship|consumer_alert'&#41;)
 ### проверить images:
 docker images
 
@@ -51,8 +51,16 @@ pyenv install 3.10.0 ### desired-python-version
 ### После запуска "docker compose up" перейдите по адресу http://localhost:3000
 # login/password admin/admin
 
-![Screenshot](img.png)
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
+
+[//]: # (/Users/aa/education/evomarine/marine_geo_data_process/img.png)
+https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/img_1.png
+
+[//]: # (![Screenshot]&#40;img.png&#41;)
+
+[//]: # (![img_1.png]&#40;img_1.png&#41;)
+
+[//]: # (![img_2.png]&#40;img_2.png&#41;)
+
+[//]: # (![img_3.png]&#40;img_3.png&#41;)
+
+[//]: # (![img_4.png]&#40;img_4.png&#41;)
