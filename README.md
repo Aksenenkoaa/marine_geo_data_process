@@ -1,6 +1,6 @@
 ### marine_geo_data_process
 ### Обработка геоданных с морских судов
-
+___
 
 ## Подготовьте приложение:
 git clone https://github.com/Aksenenkoaa/marine_geo_data_process
@@ -11,7 +11,7 @@ git clone https://github.com/Aksenenkoaa/marine_geo_data_process
 [//]: # (docker rmi $&#40;docker images | egrep 'producer_ship|consumer_ship|consumer_alert'&#41;)
 ### проверить images:
 docker images
-
+___
 
 ## Запустите приложение:
 docker-compose up
@@ -31,6 +31,7 @@ consumer = KafkaConsumer(
 api_version=(7, 6, 0),
 bootstrap_servers='kafka1:9092',
 ...)
+___
 
 ### если появится ошибка
 ### ModuleNotFoundError: No module named '_lzma'
@@ -38,6 +39,7 @@ bootstrap_servers='kafka1:9092',
 pyenv uninstall 3.10.0 ### desired-python-version
 brew install xz
 pyenv install 3.10.0 ### desired-python-version
+___
 
 ### Вы можете регулировать скорость подачи данных с кораблей
 ### если вы хотите запустить подачу данных в соотвествии с 
@@ -45,7 +47,7 @@ pyenv install 3.10.0 ### desired-python-version
 ### данные были отправлены с корабля, то установите REAL_TIME_FREQUENCY = True
 ### Вы можете регулировать скорость подачи данных увеличивая (ускоряя)
 ### или уменьшая (снижая скорость) значение переменной SPEED_UP
-
+___
 
 ### Для того чтобы сформировать dashboard:
 ### После запуска "docker compose up" перейдите по адресу http://localhost:3000
