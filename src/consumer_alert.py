@@ -12,9 +12,8 @@ from utils import create_bootstrap_servers, create_api_version, create_logger
 FRUD_CONST_1 = 0.514444
 FRUD_CONST_2 = 9.8
 FRUD_MOMENTUM_THRESHOLD = 0.2
-# FRUD_AVG_2MIN_THRESHOLD = 0.84
-FRUD_AVG_2MIN_THRESHOLD = 0.13
-RADIUS_CONST = (180.0 / 3.14) * 60 * 0.514444
+FRUD_AVG_2MIN_THRESHOLD = 0.084
+RADIUS_CONST = (180.0 / 3.14) * 60 * FRUD_CONST_1
 DB_NAME = 'postgres'
 DB_USER = 'postgres'
 DB_PASS = 'postgres'
@@ -85,8 +84,7 @@ def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
         last_time = df["time"].iloc[-1]
         last_time_minus_2min = df["time"].iloc[-1] + pd.Timedelta(minutes=-2)
         df = df[(df['time'] >= last_time_minus_2min) & (df['time'] <= last_time)]
-        # !!!!!!!!!!
-        # данные по разным кораблям перемешаны - нужно это учесть
+
         try:
             for column_ in ['stw', 'length', 'rot']:
                 df[df[column_] == ""] = np.NaN
@@ -109,15 +107,11 @@ def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
         df['alert'] = False
         df.loc[
             (
-                    # (
+                    (
                             (df['frud_momentum_num'] > FRUD_MOMENTUM_THRESHOLD) |
                             (df['frud_avg_2min_num'] > FRUD_AVG_2MIN_THRESHOLD)
-                    # ) & (df['radius_circulation'] < df['length_3times'])
+                    ) & (df['radius_circulation'] < df['length_3times'])
             ), 'alert'] = True
-
-        # df.loc[df['frud_momentum_num'] > FRUD_MOMENTUM_THRESHOLD, 'alert'] = True
-        # df.loc[df['frud_avg_2min_num'] > FRUD_AVG_2MIN_THRESHOLD, 'alert'] = True
-        # df.loc[df['radius_circulation'] < df['length_3times'], 'alert'] = True
 
         if df.iloc[0]['alert']:
             if not alert_passed:

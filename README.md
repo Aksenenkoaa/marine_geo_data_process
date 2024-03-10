@@ -1,51 +1,57 @@
 ### marine_geo_data_process
-Process of geo data from ships
+### Обработка геоданных с морских судов
 
 
-## Prepere program:
+## Подготовьте приложение:
 git clone https://github.com/Aksenenkoaa/marine_geo_data_process
-### copy file "vessels_data.csv" to the project root (marine_geo_data_process)
-docker compose up
-### if there are some problem, remove all containers before restart
+### скопируйте файл "vessels_data.csv" в корневой каталог проекта (marine_geo_data_process)
+### если есть какие-то проблемы в запуске docker контейнеров, 
+### удалите все контейнеры перед перезапуском
 docker stop $(docker ps -aq) && docker rm $(docker ps -aq) && docker ps -a
 docker rmi $(docker images | egrep 'producer_ship|consumer_ship|consumer_alert')
-### to check images:
+### проверить images:
 docker images
 
 
-## To start program:
+## Запустите приложение:
 docker-compose up
-### if consumer give error "kafka.errors.NoBrokersAvailable: NoBrokersAvailable"
-### check that KafkaProducer and KafkaConsumer have same api_version
-### in all files with KafkaProducer and KafkaConsumer - there should be same api_version
-### go into container
+### если KafkaConsumer дает error "kafka.errors.NoBrokersAvailable: NoBrokersAvailable"
+### проверьте, что у KafkaProducer и KafkaConsumer 
+### в данном приложении указан одинаковый api_version
+### во всех файлах KafkaProducer и KafkaConsumer - должен быть одинаковый api_version
+### чтобы узнать какой у вас api_version, зайдите в container
 docker container exec -it kafka1 bash
 /bin/kafka-topics --version
-### result example
+### вы получите api_version
 7.6.0-ccs
-### write this in KafkaProducer and KafkaConsumer
+### запишите числовое значение (7.6.0) в KafkaProducer и KafkaConsumer
+### у вас получится примерно так:
 consumer = KafkaConsumer(
 'my_topic_name',
 api_version=(7, 6, 0),
 bootstrap_servers='kafka1:9092',
 ...)
 
-### If there is error with CMD "python3 src/flink_consumer.py"
+### если появится ошибка
 ### ModuleNotFoundError: No module named '_lzma'
+### то сделайте следующее
 pyenv uninstall 3.10.0 ### desired-python-version
 brew install xz
 pyenv install 3.10.0 ### desired-python-version
 
-### if you need real-time frequency of sending messages from the ship board
-### then you need switch REAL_TIME_FREQUENCY to True
-### with SPEED_UP you could change speed of the data sending
+### Вы можете регулировать скорость подачи данных с кораблей
+### если вы хотите запустить подачу данных в соотвествии с 
+### временной меткой 'time', которая показывает в какое время 
+### данные были отправлены с корабля, то установите REAL_TIME_FREQUENCY = True
+### Вы можете регулировать скорость подачи данных увеличивая (ускоряя)
+### или уменьшая (снижая скорость) значение переменной SPEED_UP
 
 
-### to construct dashboard:
-### After launch "docker compose up" go to the http://localhost:3000
+### Для того чтобы сформировать dashboard:
+### После запуска "docker compose up" перейдите по адресу http://localhost:3000
 # login/password admin/admin
 
-![img.png](img.png)
+![Screenshot](img.png)
 ![img_1.png](img_1.png)
 ![img_2.png](img_2.png)
 ![img_3.png](img_3.png)
