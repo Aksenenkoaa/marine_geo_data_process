@@ -2,6 +2,41 @@
 Обработка геоданных с морских судов
 ___
 
+# Логика работы приложения:
+
+Контейнер producer_ship (producer_ship.py) забирает данные из csv файла
+и отправляет в KafkaProducer в топик ship_info.
+Тем самым данный контейнер эмулирует отправку сообщений с борта корабля.
+
+Контейнер consumer_alert приримает сообщения с борта корабля через KafkaConsumer.
+В этом же контейнере производится:
++ анализ данных
++ отправка алерта на борт судна
++ сохранение счетчика алертов для каждого судна в базе данных
+
+Анализ данных производится с помощью Pandas.
+Необходимо данный функционал переписать на (по приоритетности):
++ Flink
++ Spark Structured Streaming
+
+Отправка алертов производится с помощью модуля producer_alert.py.
+В данном модуле используется KafkaProducer и топик alert_info.
+
+Сохранение счетчиков алертов производится в Postgresql (Контейнер db).
+Визуализация счетчиков алертов осуществялется 
+с помощью Grafana (Контейнер grafana).
+
+Прием алертов на борту корабля осуществляется 
+с помощью контейнера consumer_ship через KafkaConsumer.
+
+Весь код с KafkaProducer и KafkaConsumer 
+реализован в пакете marine_geo_data_process/src
+
+В директории marine_geo_data_process/y_images_for_readme
+находятся изображения, используемые в качестве инструкции 
+по созданию дашборда в Grafana.
+___
+
 ## Подготовьте приложение:
 Перенесите приложение на свою машину:
 
@@ -78,8 +113,6 @@ ___
 ![create-dash](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png)
 
 Укажите с какой частотой обновлять данные в дашборде
-
-[//]: # (![frequency]&#40;https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png&#41;)
 
 <img src="https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png" width="400">
 

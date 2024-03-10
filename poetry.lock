@@ -65,17 +65,6 @@ files = [
 pycparser = "*"
 
 [[package]]
-name = "findspark"
-version = "2.0.1"
-description = "Find pyspark to make it importable."
-optional = false
-python-versions = "*"
-files = [
-    {file = "findspark-2.0.1-py2.py3-none-any.whl", hash = "sha256:e5d5415ff8ced6b173b801e12fc90c1eefca1fb6bf9c19c4fc1f235d4222e753"},
-    {file = "findspark-2.0.1.tar.gz", hash = "sha256:aa10a96cb616cab329181d72e8ef13d2dc453b4babd02b5482471a0882c1195e"},
-]
-
-[[package]]
 name = "greenlet"
 version = "3.0.3"
 description = "Lightweight in-process concurrent programming"
@@ -595,4 +584,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.11"
-content-hash = "4387969af436b5a0f4f0c8925da712aa5bd2eb60318aca36e267e874728057d6"
+content-hash = "6debab1caf619bf706c1928ba00f3d4da7c0c93fffb0eba7a599e61e8ebd6d54"

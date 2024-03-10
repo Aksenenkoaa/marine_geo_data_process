@@ -13,7 +13,7 @@ FRUD_CONST_1 = 0.514444
 FRUD_CONST_2 = 9.8
 FRUD_MOMENTUM_THRESHOLD = 0.2
 FRUD_AVG_2MIN_THRESHOLD = 0.084
-RADIUS_CONST = (180.0 / 3.14) * 60 * FRUD_CONST_1
+RADIUS_CONST = (180.0 / 3.14) * 60 * FRUD_CONST_1  # ~ 1769.4252229299364
 DB_NAME = 'postgres'
 DB_USER = 'postgres'
 DB_PASS = 'postgres'
@@ -85,6 +85,9 @@ def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
         last_time_minus_2min = df["time"].iloc[-1] + pd.Timedelta(minutes=-2)
         df = df[(df['time'] >= last_time_minus_2min) & (df['time'] <= last_time)]
 
+        # TODO: Обработать Warnings, появляющиеся из-за ffill и bfill.
+        # При пропуске данных заполняем сначала из следующей строки,
+        # затем из предыдущей, если в следующей нет данных
         try:
             for column_ in ['stw', 'length', 'rot']:
                 df[df[column_] == ""] = np.NaN
@@ -100,7 +103,8 @@ def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
 
         df = df.tail(1)
 
-        df['abs'] = df['rot'].abs()
+        # TODO: Обработать явно деление на ноль.
+        # Сейчас если 'rot' = 0 то 'radius_circulation' = inf - проблем в данной задаче не возникает
         df['radius_circulation'] = RADIUS_CONST * df['stw'] / df['rot'].abs()
         df['length_3times'] = df['length'] * 3
 
@@ -113,11 +117,12 @@ def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
                     ) & (df['radius_circulation'] < df['length_3times'])
             ), 'alert'] = True
 
+        df['time'] = df['time'].astype(str)
+        dict_last_row = df.to_dict('records')[0]
+        logger.info(f'data from the ship analyzed: {dict_last_row}')
+
         if df.iloc[0]['alert']:
             if not alert_passed:
-                df['time'] = df['time'].astype(str)
-                dict_last_row = df.to_dict('records')[0]
-
                 alert_producer.send_message(alert_data=dict_last_row)
                 update_alert_count_in_db(engine_db=engine_db, ship_id=dict_last_row.get('dms_id'))
                 alert_passed = True

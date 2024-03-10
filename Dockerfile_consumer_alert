@@ -8,6 +8,7 @@ ENV PYTHONUNBUFFERED=1
 ENV AM_I_IN_A_DOCKER_CONTAINER Yes
 
 RUN pip install --upgrade pip && \
+    pip install lz4==4.3.3 && \
     pip install pandas==2.2.1 && \
     pip install numpy==1.26.4 && \
     pip install kafka-python==2.0.2 && \

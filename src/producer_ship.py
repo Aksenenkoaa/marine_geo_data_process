@@ -7,9 +7,8 @@ from kafka import KafkaProducer
 
 from utils import create_bootstrap_servers, create_api_version, create_logger
 
-REAL_TIME_FREQUENCY = True
-# REAL_TIME_FREQUENCY = False
-SPEED_UP = 2_000
+REAL_TIME_FREQUENCY = False
+SPEED_UP = 1
 LINGER_MS = 60_000 / SPEED_UP
 BATCH_SIZE = 7_000
 COMPRESSION_TYPE = 'lz4'
@@ -28,8 +27,8 @@ def producer_start() -> KafkaProducer:
     return KafkaProducer(bootstrap_servers=create_bootstrap_servers(),
                          api_version=create_api_version(),
                          linger_ms=LINGER_MS,
-                         batch_size=BATCH_SIZE,)
-    # compression_type=COMPRESSION_TYPE,)
+                         batch_size=BATCH_SIZE,
+                         compression_type=COMPRESSION_TYPE,)
 
 
 def send_message(producer: KafkaProducer) -> None:
