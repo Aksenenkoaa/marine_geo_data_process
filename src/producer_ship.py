@@ -7,9 +7,9 @@ from kafka import KafkaProducer
 
 from utils import create_bootstrap_servers, create_api_version, create_logger
 
-# REAL_TIME_FREQUENCY = True
-REAL_TIME_FREQUENCY = False
-SPEED_UP = 1_500
+REAL_TIME_FREQUENCY = True
+# REAL_TIME_FREQUENCY = False
+SPEED_UP = 2_000
 LINGER_MS = 60_000 / SPEED_UP
 BATCH_SIZE = 7_000
 COMPRESSION_TYPE = 'lz4'
