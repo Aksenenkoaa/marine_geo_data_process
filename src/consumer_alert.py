@@ -3,13 +3,11 @@ import json
 from kafka import KafkaConsumer
 import numpy as np
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Engine
 from sqlalchemy import text
 
 from producer_alert import AlertToShip
-from utils import create_bootstrap_servers, create_api_version
-
-pd.set_option('display.max_columns', None)
+from utils import create_bootstrap_servers, create_api_version, create_logger
 
 FRUD_CONST_1 = 0.514444
 FRUD_CONST_2 = 9.8
@@ -24,9 +22,14 @@ DB_HOST = 'db'
 DB_PORT = '5432'
 
 
-def create_postgresql_table():
+def create_postgresql_table() -> Engine:
+    """
+    Create table in postgres
+
+    :return: sqlalchemy Engine
+    """
     db_string = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-    engine = create_engine(db_string, )
+    engine = create_engine(db_string)
     with engine.connect() as conn:
         conn.execute(text("drop table if exists ship_alerts"))
         conn.commit()
@@ -36,7 +39,14 @@ def create_postgresql_table():
     return engine
 
 
-def update_alert_count_in_db(engine_db, ship_id):
+def update_alert_count_in_db(engine_db: Engine, ship_id) -> None:
+    """
+    Create new row in the postgres table or update (increment + 1) if row with id exists
+
+    :param engine_db: sqlalchemy Engine
+    :param ship_id: unique id for each ship
+    :return: None
+    """
     with engine_db.connect() as conn:
         conn.execute(text(
             f"insert into ship_alerts (ship_id, alerts_count) \
@@ -49,10 +59,17 @@ def update_alert_count_in_db(engine_db, ship_id):
         result = conn.execute(text("select * from ship_alerts"))
         conn.commit()
         df = pd.DataFrame(result)
-        print('result', df)
+        logger.info(f'result:\n{df}')
 
 
-def pandas_process(consumer, engine_db):
+def pandas_process(consumer: KafkaConsumer, engine_db: Engine) -> None:
+    """
+    Processing data with pandas
+
+    :param consumer: KafkaConsumer data. Batch of messages
+    :param engine_db: sqlalchemy Engine
+    :return: None
+    """
     alert_producer = AlertToShip()
     alert_producer.producer_start()
     df = pd.DataFrame()
@@ -68,18 +85,16 @@ def pandas_process(consumer, engine_db):
         last_time = df["time"].iloc[-1]
         last_time_minus_2min = df["time"].iloc[-1] + pd.Timedelta(minutes=-2)
         df = df[(df['time'] >= last_time_minus_2min) & (df['time'] <= last_time)]
-
-        df[df['stw'] == ""] = np.NaN
-        df['stw'] = df['stw'].fillna(method='ffill')
-        df['stw'] = df['stw'].fillna(method='bfill')
-
+        # !!!!!!!!!!
+        # данные по разным кораблям перемешаны - нужно это учесть
         try:
-            df['stw'] = df['stw'].astype(float)
-            df['length'] = df['length'].astype(float)
-            df['rot'] = df['rot'].astype(float)
+            for column_ in ['stw', 'length', 'rot']:
+                df[df[column_] == ""] = np.NaN
+                df[column_] = df[column_].ffill()
+                df[column_] = df[column_].bfill()
+                df[column_] = df[column_].astype(float)
         except ValueError as e:
-            print("There is missing data: ", e)
-            print(df[['time', 'stw', 'length', 'rot', 'dms_id']])
+            logger.error(f'There is missing data: {e}')
             continue
 
         df['frud_momentum_num'] = FRUD_CONST_1 * df['stw'] / ((FRUD_CONST_2 * df['length']) ** 0.5)
@@ -109,16 +124,20 @@ def pandas_process(consumer, engine_db):
                 df['time'] = df['time'].astype(str)
                 dict_last_row = df.to_dict('records')[0]
 
-                alert_producer.send_message(dict_last_row)
+                alert_producer.send_message(alert_data=dict_last_row)
                 update_alert_count_in_db(engine_db=engine_db, ship_id=dict_last_row.get('dms_id'))
                 alert_passed = True
         else:
             alert_passed = False
 
 
-def consumer_start(engine_db):
+def consumer_start(engine_db: Engine) -> None:
+    """
+    Create KafkaConsumer
 
-    #создание потребителя Kafka
+    :param engine_db: sqlalchemy Engine
+    :return: None
+    """
     consumer = KafkaConsumer(
         'ship_info',
         api_version=create_api_version(),
@@ -133,5 +152,6 @@ def consumer_start(engine_db):
 
 
 if __name__ == '__main__':
+    logger = create_logger()
     engine_db = create_postgresql_table()
     consumer_start(engine_db=engine_db)

@@ -2,12 +2,15 @@ import json
 
 from kafka import KafkaConsumer
 
-from utils import create_bootstrap_servers, create_api_version
+from utils import create_bootstrap_servers, create_api_version, create_logger
 
 
-def consumer_start():
+def consumer_start() -> None:
+    """
+    Create KafkaConsumer for getting alerts on the ship board
 
-    #создание потребителя Kafka
+    :return: None
+    """
     consumer = KafkaConsumer(
         'alert_info',
         api_version=create_api_version(),
@@ -22,9 +25,9 @@ def consumer_start():
     for message in consumer:
         payload = message.value.decode("utf-8")
         data = json.loads(payload)
-        print('ALERT!')
-        print(data)
+        logger.info(f'ALERT!\n{data}')
 
 
 if __name__ == '__main__':
+    logger = create_logger()
     consumer_start()
