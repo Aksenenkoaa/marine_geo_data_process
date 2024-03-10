@@ -51,5 +51,15 @@ pyenv install 3.10.0 ### desired-python-version
 ### После запуска "docker compose up" перейдите по адресу http://localhost:3000
 # login/password admin/admin
 
-https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png
+### создать источник данных (база постгрес, которую поднимаем в докере)
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
+
+### создать дашборд: bar chart лучше выбрать горизонтальный, так как id кораблей очень длинный 
+### и при вертикальном варианте id разных кораблей будут перекрывать друг друга
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png.png)
+
+### укажите с какой частотой обновлять данные в дашборде
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png)
+
+### в результате получится такой дашборд
 ![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
