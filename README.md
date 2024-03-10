@@ -70,17 +70,19 @@ ___
 
 Создайте источник данных (база постгрес, которую поднимаем в докере)
 
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
+![create-source](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
 
 Создайте дашборд: bar chart лучше выбрать горизонтальный, так как id кораблей очень длинный 
 и при вертикальном варианте id разных кораблей будут перекрывать друг друга.
 
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png)
+![create-dash](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_dashboard.png)
 
 Укажите с какой частотой обновлять данные в дашборде
 
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png {width=40px height=40px})
+![frequency](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png)
+
+<img src="https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/refresh_dashboard.png" width="48">
 
 В результате получится примерно такой дашборд
 
-![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/result.png)
+![result](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/result.png)
