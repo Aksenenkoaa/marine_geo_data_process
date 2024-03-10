@@ -7,9 +7,9 @@ from kafka import KafkaProducer
 
 from utils import create_bootstrap_servers, create_api_version, create_logger
 
-REAL_TIME_FREQUENCY = True
-# REAL_TIME_FREQUENCY = False
-SPEED_UP = 1_000
+# REAL_TIME_FREQUENCY = True
+REAL_TIME_FREQUENCY = False
+SPEED_UP = 1_500
 LINGER_MS = 60_000 / SPEED_UP
 BATCH_SIZE = 7_000
 COMPRESSION_TYPE = 'lz4'
@@ -49,6 +49,8 @@ def send_message(producer: KafkaProducer) -> None:
             if REAL_TIME_FREQUENCY:
                 if prev_time is not None:
                     time_delta = (cur_time - prev_time).total_seconds()
+                if time_delta < 0:
+                    time_delta = 0
 
                 time.sleep(time_delta / SPEED_UP)
             producer.send(TOPIC_NAME, json.dumps(row).encode('utf-8', 'replace'))

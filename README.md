@@ -52,3 +52,4 @@ pyenv install 3.10.0 ### desired-python-version
 # login/password admin/admin
 
 https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png
+![myimage-alt-tag](https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/create_data_source.png)
