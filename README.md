@@ -51,7 +51,7 @@ pyenv install 3.10.0 ### desired-python-version
 ### После запуска "docker compose up" перейдите по адресу http://localhost:3000
 # login/password admin/admin
 
-
+https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/y_images_for_readme/Screenshot%202024-03-10%20at%2000.58.33.png
 [//]: # (/Users/aa/education/evomarine/marine_geo_data_process/img.png)
 [//]: # (https://github.com/Aksenenkoaa/marine_geo_data_process/blob/main/img_1.png)
 
