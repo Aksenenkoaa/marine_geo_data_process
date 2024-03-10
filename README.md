@@ -99,7 +99,8 @@ ___
 ___
 
 ## Создайте dashboard:
-После запуска "docker compose up" перейдите по адресу http://localhost:3000
+После запуска "docker compose up", как только контейнер Grafana
+запустится, перейдите по адресу http://localhost:3000
 
 Войдите: login: admin; password: admin
 
